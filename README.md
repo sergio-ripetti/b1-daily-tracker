@@ -21,6 +21,10 @@ The app helps answer questions such as:
 
 The goal is to make daily production easier to understand and improve future planning.
 
+## Live Demo
+
+[View Live Demo](https://b1-daily-tracker.vercel.app)
+
 ## Screenshots
 
 Add your screenshots inside this folder:
