@@ -1,331 +1,230 @@
 # B1 Ripe Deli Daily Tracker
 
-B1 Ripe Deli Daily Tracker is a React demo application designed to help a deli / food production business track daily product requests, returns, and sold quantities.
-
-The main purpose of this app is to support daily production decisions by showing what products are being requested, what products are being returned, what products are selling well, and what products may need to be sent in lower or higher quantities during the week.
-
-This version is a front-end demo using `localStorage`. The next major goal is to migrate the project to TypeScript and connect it to a real database.
-
-## Project Purpose
-
-This app was created for a deli / food production workflow where staff need to track daily product movement from Monday to Friday.
-
-The app helps answer questions such as:
-
-- How many items were requested each day?
-- How many items were returned?
-- How many items were sold?
-- Which products are the most popular?
-- Which products are selling less?
-- What items should be sent in higher or lower quantities during the week?
-
-The goal is to make daily production easier to understand and improve future planning.
+A React application for tracking daily product requests, returns, and sales in a food production workflow. Built as a portfolio project to practice frontend development skills.
 
 ## Live Demo
 
 [View Live Demo](https://b1-daily-tracker.vercel.app)
 
-## Screenshots
+## Project Overview
 
-Add your screenshots inside this folder:
+This app helps deli and food production staff track daily product movement from Monday to Friday. It answers questions like:
 
-```bash
-screenshots
-```
-
-Recommended screenshot names:
-
-```bash
-daily-grid.png
-items.png
-dashboard.png
-settings.png
-```
-
-After adding the images, they will appear below.
-
-### Daily Grid
-
-![Daily Grid](screenshots/daily-grid.png)
-
-### Items
-
-![Items](screenshots/items.png)
-
-### Dashboard
-
-![Dashboard](screenshots/dashboard.png)
-
-### Settings
-
-![Settings](screenshots/settings.png)
+- How many items were requested each day?
+- How many items were returned?
+- How many items were sold?
+- Which products are most popular?
+- Which products need quantity adjustments?
 
 ## Features
 
-- Add new items
-- Edit existing items
-- Delete items with confirmation modal
-- Daily Grid from Monday to Friday
-- Previous Week / Next Week / This Week selector
-- Requested quantity input
-- Returned quantity input
-- Automatic Sold calculation
-- Dashboard with weekly metrics
-- Most popular item
-- Least popular item
-- Total requested
-- Total sold
-- Total returned
-- Return rate
-- Dark mode and light mode
-- Logo changes based on selected theme
-- Toast notifications with Sonner
-- Settings page
-- Clear selected week records
-- Data saved in browser `localStorage`
+- **Daily Grid**: Enter requested and returned quantities for each product, Monday–Friday
+- **Automatic Calculations**: Sold quantity = Requested − Returned
+- **Week Navigation**: Move between weeks with Previous, Next, and Current Week buttons
+- **Item Management**: Add, edit, archive, restore, and permanently delete products with confirmation dialogs
+- **Dashboard Analytics**:
+  - Total requested, returned, and sold quantities
+  - Return rate percentage
+  - Most and least popular products
+- **Input Validation**:
+  - Returned quantity cannot exceed requested quantity
+  - Quantity inputs accept non-negative whole numbers from 0 to 9999
+  - Item names limited to 40 characters
+  - Real-time error feedback with red highlighting
+  - Returns focus to invalid fields for correction
+- **Responsive Design**: Works on mobile, tablet, and desktop
+- **Theme Support**: Light and dark modes with persistent preference
+- **Theme-Aware Branding**: Logo changes based on selected theme
+- **Notifications**: Toast alerts via Sonner for user feedback
+- **Local Data Persistence**: All records saved in browser `localStorage`
+- **Demo Data**: Automatically loads on first launch with realistic sample data
 
 ## Tech Stack
 
-- React
-- React Router DOM
-- JavaScript
-- CSS
-- Vite
-- Sonner
-- localStorage
+- **React** 19.2.6
+- **React Router DOM** 7.15.1
+- **Vite** 8.1.5
+- **Sonner** 2.0.7 (toast notifications)
+- **JavaScript** (no TypeScript yet)
+- **CSS** (vanilla, with CSS variables for theming)
 
-## Current Status
+## How It Works
 
-This project is currently a working demo.
+### Weekly Tracking
 
-The app is functional with `localStorage` and does not require a backend or database at this stage.
+The app organizes records by week (Monday–Friday). Each record consists of:
+- **Product/Item**: The specific product being tracked
+- **Date**: The workday (Monday–Friday only)
+- **Requested**: Quantity delivered to the store
+- **Returned**: Quantity not sold (marked for return)
+- **Sold**: Automatically calculated as `Requested − Returned`
 
-Completed sections:
+### Data Storage
 
-- Items page
-- Daily Grid page
-- Dashboard page
-- Settings page
-- Dark / Light mode
-- Theme-based logo switching
-- Local data persistence
-- Weekly record clearing
+All data is stored in the browser's `localStorage`. Each record is uniquely identified by:
+- **Item ID**
+- **Date** (YYYY-MM-DD format)
 
-## Important Note About localStorage
+This means:
+- Data persists across browser refreshes
+- Data is local to the current browser only
+- Clearing browser storage clears all records
+- No backend server or database is required for this project
 
-This app currently stores data in the browser using `localStorage`.
+### Demo Data
 
-This means data is saved only in the current browser and device. If browser data is cleared, the saved records may be lost.
+On first launch, the app generates realistic demo data:
 
-This is intentional for the demo version.
+```
+Product: Scone
+Requested: 11 (delivered to store)
+Returned: 1 (not sold)
+Sold: 10 (calculated automatically)
+```
 
-In a future version, this project will be migrated to TypeScript and connected to a database.
+**Demo Coverage:**
+- **7 Products**: Scone, Mini Scone, Brioche, Mini Brioche, Savoury Brioche, Key Lime, Cookies
+- **Rolling Period**: Approximately one month of weekday records (from one month ago through today)
+- **Records**: One record per product per workday in that period
+
+**Demo Behavior:**
+- Generates only once per browser/device
+- Does not generate records for future dates
+- Current week includes data only through today
+- Becomes your working data after first launch
+
+### Validation
+
+To verify demo data integrity, run:
+
+```bash
+npm run validate:demo
+```
+
+This checks:
+- Product definitions (7 items)
+- Record counts and date ranges
+- Quantity validation (Returned ≤ Requested)
+- Workday-only records
+- Deterministic generation
 
 ## Project Structure
 
-```bash
+```
 src/
-  assets/
-  constants/
-  dashboard/
-  grid/
-  hooks/
-  items/
-  pages/
-  ui/
-  utils/
-  App.jsx
-  main.jsx
-  index.css
+├── App.jsx                    # Main app component with routing
+├── main.jsx                   # React entry point
+├── index.css                  # Global styles and theme variables
+├── components/
+│   └── layout/                # Navigation and page layout
+├── context/                   # React context (theme)
+├── dashboard/                 # Dashboard stats and tables
+├── grid/                      # Daily Grid component
+├── hooks/                     # Custom React hooks
+├── items/                     # Item management components
+├── pages/                     # Page components (routed)
+├── constants/                 # App-wide constants
+└── utils/                     # Helper functions and validation
 ```
 
-## Main Pages
+## Pages
 
-### Daily Grid
+### Daily Grid (`/daily-grid`)
 
-The Daily Grid is used to enter daily quantities from Monday to Friday.
+Enter and edit product quantities for the selected week. Each product row shows:
+- Requested quantity input
+- Returned quantity input
+- Automatically calculated sold quantity
+- Visual feedback for validation errors
 
-Each item has:
+**Week Navigation:**
+- Previous Week: Go back one week
+- Next Week: Go forward one week
+- This Week: Jump to the current week
 
-- Requested quantity
-- Returned quantity
-- Sold quantity calculated automatically
+### Items (`/items`)
 
-The grid allows users to move between weeks using:
+Manage your product list:
+- **Add**: Create a new product
+- **Edit**: Rename a product
+- **Archive**: Hide a product from future data entry while preserving all historical records and Dashboard statistics (can be restored later)
+- **Restore**: Bring an archived product back to active use
+- **Permanently Delete**: Remove a product entirely, including all associated historical records (cannot be undone)
 
-- Previous Week
-- Next Week
-- This Week
+Archive is useful when you want to stop using a product without losing its history. Permanent Delete removes both the product and its records completely.
 
-Each week stores its own records based on item and date.
+### Dashboard (`/dashboard`)
 
-### Items
+Analyze the currently selected week:
+- **Summary**: Total requested, returned, sold, and return rate (%)
+- **Most Popular**: Product with the highest sales
+- **Least Popular**: Product with the lowest sales
+- **Top Products**: Ranked by quantity sold
 
-The Items page allows users to manage the product list.
+### Settings (`/settings`)
 
-Users can:
+App preferences and data management:
+- **Theme Switcher**: Toggle between light and dark modes
+- **Clear Weekly Records**: Remove all records from the selected week
+- **Note**: No "Reset All Data" option to protect important records
 
-- Add items
-- Edit items
-- Delete items
+## Getting Started
 
-Deleting an item uses a confirmation modal to avoid accidental deletion.
-
-### Dashboard
-
-The Dashboard shows weekly performance based on the selected week.
-
-It includes:
-
-- Total requested
-- Total sold
-- Total returned
-- Return rate
-- Most popular item
-- Least popular item
-
-The dashboard helps identify what products are selling better and what products may need quantity adjustments.
-
-### Settings
-
-The Settings page allows users to manage app preferences and clear records from a selected week.
-
-The app does not currently include a Reset All Data option because the data could become important over time.
-
-Only selected weekly records can be cleared.
-
-## Future Improvements
-
-Planned improvements for future versions:
-
-- Migrate the project to TypeScript
-- Connect the app to a real database
-- Add backend with Node.js and Express
-- Add MongoDB or another database
-- Add user login
-- Improve mobile responsive design
-- Reduce spacing and sizes on mobile to use screen space better
-- Add export / import backup
-- Add CSV reports
-- Add monthly reports
-- Add product categories
-- Add active / inactive items instead of deleting items permanently
-- Add comparison with previous weeks
-- Improve dashboard charts and analytics
-- Add better production recommendations
-- Improve the Daily Grid visual layout
-- Add a date picker to the Week Selector
-- Improve navbar responsiveness
-- Add better backup protection before using real data
-
-## Installation
-
-Clone the repository:
+### Installation
 
 ```bash
 git clone <repository-url>
-```
-
-Go to the project folder:
-
-```bash
 cd <project-folder>
-```
-
-Install dependencies:
-
-```bash
 npm install
 ```
 
-Run the development server:
+### Development
 
 ```bash
 npm run dev
 ```
 
-Build the project:
+Starts a local dev server (usually http://localhost:5173).
+
+### Production Build
 
 ```bash
 npm run build
 ```
 
-Preview the production build:
+Creates optimized files in the `dist/` folder.
+
+### Preview Production Build
 
 ```bash
 npm run preview
 ```
 
-## GitHub Setup
+Test the production build locally.
 
-Initialize Git if the project does not already have Git configured:
-
-```bash
-git init
-```
-
-Check the current status:
+### Code Quality
 
 ```bash
-git status
+npm run lint
 ```
 
-Add all files:
+Checks code for style and potential errors using ESLint.
+
+### Validate Demo Data
 
 ```bash
-git add .
+npm run validate:demo
 ```
 
-Create the first commit:
+Verifies demo data generation, integrity, and deterministic behavior.
 
-```bash
-git commit -m "Complete B1 Ripe Deli daily tracker demo"
-```
+## Deployment
 
-Add the remote repository:
+This project is deployed on **Vercel** at [b1-daily-tracker.vercel.app](https://b1-daily-tracker.vercel.app).
 
-```bash
-git remote add origin <repository-url>
-```
+### Vercel Configuration
 
-Push the project to GitHub:
-
-```bash
-git branch -M main
-git push -u origin main
-```
-
-For future updates:
-
-```bash
-git status
-git add .
-git commit -m "Update project"
-git push
-```
-
-## Deployment on Vercel
-
-This project can be deployed on Vercel.
-
-Recommended Vercel settings:
-
-```txt
-Framework Preset: Vite
-Build Command: npm run build
-Output Directory: dist
-Install Command: npm install
-```
-
-## React Router and Vercel
-
-If refreshing pages like `/dashboard`, `/items`, or `/settings` causes a 404 error on Vercel, create a file in the root of the project called:
-
-```bash
-vercel.json
-```
-
-Add this code:
+The project includes a `vercel.json` file that configures client-side routing:
 
 ```json
 {
@@ -338,42 +237,128 @@ Add this code:
 }
 ```
 
-Then commit and push again:
+This ensures that navigating to nested routes (like `/dashboard` or `/items`) works correctly when refreshing the page.
+
+### Local Deployment Checklist
+
+Before deploying to production:
+
+- [ ] `npm run lint` — No errors or warnings
+- [ ] `npm run build` — Build completes successfully
+- [ ] `npm audit` — No critical vulnerabilities
+- [ ] Daily Grid: Enter data and verify localStorage persistence
+- [ ] Items: Add, edit, archive, restore, and permanently delete products
+- [ ] Dashboard: Verify calculations match grid data
+- [ ] Settings: Test theme switcher and weekly record deletion
+- [ ] Navigation: Test all routes (/daily-grid, /items, /dashboard, /settings)
+- [ ] Responsive: Test on mobile, tablet, and desktop viewports
+- [ ] Browser Console: No errors or warnings
+- [ ] localStorage: Verify data persists across refreshes and navigates weeks correctly
+
+## Technical Decisions
+
+### Why localStorage?
+
+For this demo, `localStorage` provides:
+- Zero server setup
+- Instant data persistence
+- Deterministic demo initialization
+- Clear boundary between frontend and future backend
+
+This is a deliberate choice for a portfolio project to focus on frontend skills. A production app would use a database.
+
+### One-Time Demo Data
+
+Demo data generates only on first launch to:
+- Avoid overwriting user edits on reload
+- Keep the initialization date stable for reproducible analytics
+- Allow users to test and learn without repeating setup
+
+The initialization date remains unchanged while the local dataset exists.
+
+### Deterministic Generation
+
+Demo records are generated using seeded random numbers based on:
+- Product ID
+- Date (year, month, day)
+- Realistic product-specific quantity ranges
+
+This means:
+- Demo quantities are deterministic for the same product and date inputs
+- Data is reproducible for testing
+- No external API calls needed
+
+**Note:** If localStorage is cleared, demo data regenerates for the current calendar period (from one month ago through today), which may differ from the original data if the system date has changed.
+
+### Weekday-Only Tracking
+
+The app tracks only Monday–Friday (no weekends) because:
+- The Monday–Friday schedule reflects the workflow for which this demo was designed
+- Simplifies UI and data model
+- Reduces complexity for demo purposes
+
+## Current Limitations
+
+This is a frontend demo with the following boundaries:
+
+- **Browser-Local Storage Only**: Data persists only in the current browser and is not synchronized across devices
+- **No Multi-User Support**: No user authentication or collaboration features
+- **No Data Export**: Cannot export records to CSV or other formats
+- **No Long-Term Reporting**: The Dashboard provides weekly analytics, but monthly, yearly, and historical trend analysis are not implemented
+- **No Backup Protection**: Clearing browser storage permanently deletes all data
+- **No Backend Database**: All data stored locally in the browser; no server-side persistence
+
+## Future Improvements
+
+Planned enhancements:
+
+- **TypeScript Migration**: Improve type safety and maintainability
+- **Backend API**: Node.js + Express server for data management
+- **Database**: Connect to MongoDB, PostgreSQL, or similar
+- **Authentication**: User accounts and login system
+- **Multi-Device Sync**: Access data across devices and browsers
+- **CSV Export**: Download records for Excel analysis
+- **Advanced Reports**: Monthly summaries, trends, comparisons
+- **Product Categories**: Organize products by type
+- **Comparison Tools**: Compare week-to-week or month-to-month performance
+- **Automated Alerts**: Recommendations based on sales patterns
+- **Improved Mobile UX**: Further optimize spacing and touch targets
+
+## Available Scripts
+
+| Command | Purpose |
+|---------|---------|
+| `npm run dev` | Start development server with hot reload |
+| `npm run build` | Build optimized production bundle |
+| `npm run preview` | Preview production build locally |
+| `npm run lint` | Check code with ESLint |
+| `npm run validate:demo` | Verify demo data integrity and generation |
+
+## Verification
+
+To verify the project locally:
 
 ```bash
-git add .
-git commit -m "Add Vercel rewrite configuration"
-git push
-```
+# Install dependencies
+npm install
 
-## Deployment Checklist
+# Start development server
+npm run dev
 
-Before deploying, check the following:
-
-```bash
+# Build for production
 npm run build
+
+# Validate demo data
+npm run validate:demo
+
+# Run code quality check
+npm run lint
 ```
-
-If the build works, the project is ready to deploy.
-
-Recommended checklist:
-
-- Check that there are no console errors
-- Check that all pages work
-- Check that Daily Grid saves records
-- Check that Items can be added, edited, and deleted
-- Check that Dashboard reads the correct weekly data
-- Check that Settings can clear selected week records
-- Check that Dark / Light mode works
-- Check that logos change correctly by theme
-- Check that screenshots are saved inside `public/screenshots`
-
-## Demo Version
-
-This project is a demo version and is not yet intended to be used as a final production system.
-
-The next major step is to migrate the app to TypeScript and connect it to a database.
 
 ## Author
 
-Created by Sergio Ripetti Campos as part of a React portfolio project.
+Created by **Sergio Ripetti Campos** as a React portfolio project.
+
+## License
+
+This project is licensed under the **MIT License**. See the LICENSE file for details.

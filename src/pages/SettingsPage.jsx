@@ -40,31 +40,6 @@ export default function SettingsPage() {
 
   return (
     <div>
-      <div className="card" style={{ marginBottom: 16 }}>
-        <div className="card-title">Appearance</div>
-
-        <p
-          style={{
-            color: "var(--text2)",
-            fontSize: "14px",
-            lineHeight: "1.5",
-            marginBottom: "16px",
-          }}>
-          Choose between dark mode and light mode. Your preference will be saved
-          in this browser.
-        </p>
-
-        <ThemeToggle isDarkMode={isDarkMode} onToggle={toggleTheme} />
-
-        <div
-          style={{
-            color: "var(--text3)",
-            fontSize: "13px",
-            marginTop: "10px",
-          }}>
-          Current theme: {theme}
-        </div>
-      </div>
       <div className="page-header">
         <div>
           <div className="page-title">Settings</div>
@@ -75,15 +50,24 @@ export default function SettingsPage() {
       </div>
 
       <div className="card" style={{ marginBottom: 16 }}>
+        <div className="card-title">Appearance</div>
+
+        <p className="settings-description">
+          Choose between dark mode and light mode. Your preference will be saved
+          in this browser.
+        </p>
+
+        <ThemeToggle isDarkMode={isDarkMode} onToggle={toggleTheme} />
+
+        <div className="settings-meta">
+          Current theme: {theme}
+        </div>
+      </div>
+
+      <div className="card" style={{ marginBottom: 16 }}>
         <div className="card-title">Clear Weekly Records</div>
 
-        <p
-          style={{
-            color: "var(--text2)",
-            fontSize: "14px",
-            lineHeight: "1.5",
-            marginBottom: "16px",
-          }}>
+        <p className="settings-description">
           Select a work week and clear only the records from Monday to Friday.
           Your items will not be deleted.
         </p>
@@ -98,24 +82,17 @@ export default function SettingsPage() {
           />
         </div>
 
-        <div
-          style={{
-            background: "var(--bg)",
-            border: "1px solid var(--border)",
-            borderRadius: "var(--radius-sm)",
-            padding: "12px",
-            marginBottom: "16px",
-          }}>
-          <div style={{ color: "var(--text)", fontSize: 14, marginBottom: 6 }}>
+        <div className="settings-info-box">
+          <div className="settings-info-label">
             Selected week: {weekLabel}
           </div>
 
-          <div style={{ color: "var(--text3)", fontSize: 13 }}>
+          <div className="settings-info-text">
             Dates: {displayDate(weekDays[0])} to{" "}
             {displayDate(weekDays[weekDays.length - 1])}
           </div>
 
-          <div style={{ color: "var(--text3)", fontSize: 13, marginTop: 4 }}>
+          <div className="settings-info-text">
             Records saved in this week: {selectedWeekRecordsCount}
           </div>
         </div>

@@ -33,7 +33,7 @@ export default function DailyGridPage() {
           flexWrap: "wrap",
         }}>
         <span>
-          <span style={{ color: "#5b9df5" }}>Req</span> = Requested
+          <span style={{ color: "var(--blue)" }}>Req</span> = Requested
         </span>
 
         <span>

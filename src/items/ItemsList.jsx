@@ -1,6 +1,6 @@
 import ItemRow from "./ItemRow";
 
-export default function ItemsList({ items, onDeleteItem, onUpdateItem }) {
+export default function ItemsList({ items, onArchiveItem, onDeleteItem, onUpdateItem }) {
   return (
     <div className="card">
       <div className="card-title">All Items</div>
@@ -13,6 +13,7 @@ export default function ItemsList({ items, onDeleteItem, onUpdateItem }) {
             <ItemRow
               key={item.id}
               item={item}
+              onArchiveItem={onArchiveItem}
               onDeleteItem={onDeleteItem}
               onUpdateItem={onUpdateItem}
             />

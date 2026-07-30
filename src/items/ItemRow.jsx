@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { ITEM_NAME_MAX_LENGTH, sanitizeItemName } from "../utils/inputValidation";
 
-export default function ItemRow({ item, onDeleteItem, onUpdateItem }) {
+export default function ItemRow({ item, onArchiveItem, onDeleteItem, onUpdateItem }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(item.name);
   const [editError, setEditError] = useState("");
@@ -23,6 +24,13 @@ export default function ItemRow({ item, onDeleteItem, onUpdateItem }) {
     setIsEditing(false);
   };
 
+  const handleEditInputChange = (event) => {
+    const value = event.target.value;
+    const sanitized = sanitizeItemName(value);
+    setEditName(sanitized);
+    setEditError("");
+  };
+
   return (
     <div className="item-row">
       {isEditing ? (
@@ -31,12 +39,10 @@ export default function ItemRow({ item, onDeleteItem, onUpdateItem }) {
             <input
               className="item-edit-input"
               type="text"
+              maxLength={ITEM_NAME_MAX_LENGTH}
               value={editName}
               autoFocus
-              onChange={(event) => {
-                setEditName(event.target.value);
-                setEditError("");
-              }}
+              onChange={handleEditInputChange}
               onKeyDown={(event) => {
                 if (event.key === "Enter") {
                   handleSave();
@@ -73,9 +79,19 @@ export default function ItemRow({ item, onDeleteItem, onUpdateItem }) {
             </button>
 
             <button
-              className="btn btn-danger btn-sm"
-              onClick={() => onDeleteItem(item.id)}>
-              Delete
+              className="btn btn-archive btn-sm"
+              onClick={() => onArchiveItem(item.id)}
+              title="Archive item"
+              aria-label={`Archive ${item.name}`}>
+              Archive
+            </button>
+
+            <button
+              className="btn btn-item-delete btn-sm"
+              onClick={() => onDeleteItem(item.id)}
+              title="Permanently delete item"
+              aria-label={`Permanently delete ${item.name}`}>
+              ×
             </button>
           </div>
         </>

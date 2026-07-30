@@ -1,9 +1,17 @@
+import { ITEM_NAME_MAX_LENGTH, sanitizeItemName } from "../utils/inputValidation";
+
 export default function AddItemForm({
   itemName,
   error,
   onItemNameChange,
   onAddItem,
 }) {
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    const sanitized = sanitizeItemName(value);
+    onItemNameChange(sanitized);
+  };
+
   return (
     <div className="card">
       <div className="card-title">Add New Item</div>
@@ -13,8 +21,9 @@ export default function AddItemForm({
           className={`input${error ? " error" : ""}`}
           type="text"
           placeholder="Example: Croissant"
+          maxLength={ITEM_NAME_MAX_LENGTH}
           value={itemName}
-          onChange={(event) => onItemNameChange(event.target.value)}
+          onChange={handleInputChange}
           onKeyDown={(event) => {
             if (event.key === "Enter") {
               onAddItem();

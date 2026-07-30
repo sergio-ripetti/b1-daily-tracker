@@ -6,15 +6,15 @@ import { useWeekSelector } from "../hooks/useWeekSelector";
 import { displayDate, displayDay, isToday } from "../utils/dateHelpers";
 
 export default function DailyGrid({ items, records, setRecords }) {
-  
-const {
-  weekDays,
-  weekLabel,
-  isCurrentWeek,
-  goToPreviousWeek,
-  goToNextWeek,
-  goToCurrentWeek,
-} = useWeekSelector();
+  const {
+    weekDays,
+    weekLabel,
+    isCurrentWeek,
+    goToPreviousWeek,
+    goToNextWeek,
+    goToCurrentWeek,
+  } = useWeekSelector();
+
   const recordMap = useMemo(() => {
     const map = {};
 
@@ -24,6 +24,16 @@ const {
 
     return map;
   }, [records]);
+
+  const displayItems = useMemo(() => {
+    const activeItems = items.filter((item) => item.archived !== true);
+    const archivedWithData = items.filter(
+      (item) =>
+        item.archived === true &&
+        records.some((record) => record.itemId === item.id && weekDays.includes(record.date)),
+    );
+    return [...activeItems, ...archivedWithData];
+  }, [items, records, weekDays]);
 
   const handleSaveRecord = (itemId, date, data) => {
     setRecords((currentRecords) => {
@@ -57,7 +67,7 @@ const {
     });
   };
 
-  if (items.length === 0) {
+  if (items.length === 0 || displayItems.length === 0) {
     return (
       <div className="empty-state">
         <div className="empty-state-title">No items yet</div>
@@ -103,20 +113,42 @@ const {
           </thead>
 
           <tbody>
-            {items.map((item) => (
-              <tr key={item.id}>
-                <td className="item-cell">{item.name}</td>
+            {displayItems.map((item) => {
+              const isArchived = item.archived === true;
+              return (
+                <tr key={item.id} style={isArchived ? { opacity: 0.7 } : {}}>
+                  <td className="item-cell">
+                    {item.name}
+                    {isArchived && (
+                      <span
+                        style={{
+                          marginLeft: 8,
+                          fontSize: 12,
+                          color: "var(--text3)",
+                          fontStyle: "italic",
+                        }}>
+                        (archived)
+                      </span>
+                    )}
+                  </td>
 
-                {weekDays.map((date) => (
-                  <QuantityCell
-                    key={date}
-                    record={recordMap[`${item.id}|${date}`]}
-                    onSave={(data) => handleSaveRecord(item.id, date, data)}
-                    onWarn={(message) => toast.warning(message)}
-                  />
-                ))}
-              </tr>
-            ))}
+                  {weekDays.map((date) => {
+                    const record = recordMap[`${item.id}|${date}`];
+                    return (
+                      <QuantityCell
+                        key={`${item.id}|${date}`}
+                        record={record}
+                        disabled={isArchived}
+                        onSave={(data) =>
+                          !isArchived && handleSaveRecord(item.id, date, data)
+                        }
+                        onWarn={(message) => toast.warning(message)}
+                      />
+                    );
+                  })}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

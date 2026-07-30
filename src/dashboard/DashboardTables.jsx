@@ -53,7 +53,7 @@ export default function DashboardTables({ itemStats, dayStats }) {
                           className="bar-fill"
                           style={{
                             width: `${(item.requested / maxItemRequested) * 100}%`,
-                            background: "#5b9df5",
+                            background: "var(--blue)",
                           }}
                         />
                       </div>

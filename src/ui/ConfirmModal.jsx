@@ -3,6 +3,7 @@ export default function ConfirmModal({
   message,
   confirmText = "Delete",
   cancelText = "Cancel",
+  confirmButtonClass = "btn-danger",
   onConfirm,
   onCancel,
 }) {
@@ -18,7 +19,7 @@ export default function ConfirmModal({
             {cancelText}
           </button>
 
-          <button className="btn btn-danger" onClick={onConfirm}>
+          <button className={`btn ${confirmButtonClass}`} onClick={onConfirm}>
             {confirmText}
           </button>
         </div>
