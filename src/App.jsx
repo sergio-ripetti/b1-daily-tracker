@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "./context/ThemeProvider";
@@ -7,13 +6,8 @@ import DailyGridPage from "./pages/DailyGridPage";
 import ItemsPage from "./pages/ItemsPage";
 import DashboardPage from "./pages/DashboardPage";
 import SettingsPage from "./pages/SettingsPage";
-import { initializeDemoDataIfNeeded } from "./utils/initializationHelper";
 
 export default function App() {
-  useEffect(() => {
-    initializeDemoDataIfNeeded();
-  }, []);
-
   return (
     <ThemeProvider>
       <Routes>
