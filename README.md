@@ -6,6 +6,24 @@ A React application for tracking daily product requests, returns, and sales in a
 
 [View Live Demo](https://b1-daily-tracker.vercel.app)
 
+## Screenshots
+
+### Daily Grid
+
+![Daily Grid](screenshots/daily-grid.png)
+
+### Items
+
+![Items](screenshots/items.png)
+
+### Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+### Settings
+
+![Settings](screenshots/settings.png)
+
 ## Project Overview
 
 This app helps deli and food production staff track daily product movement from Monday to Friday. It answers questions like:
